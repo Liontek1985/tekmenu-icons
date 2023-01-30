@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# This file is part of The RetroPie Project
+# This file is part of the microplay-hub
+# Designs by Liontek1985
+# for RetroPie and offshoot
 #
 # The RetroPie Project is the legal property of its developers, whose names are
 # too numerous to list here. Please refer to the COPYRIGHT.md file distributed with this source.
@@ -43,6 +45,7 @@ function install_rpmenu-icons() {
 	
 	cp  -r "rpmenuicons.sh" "$rpiconsetup/rpmenuicons.sh"
     chown -R $user:$user "$rpiconsetup/rpmenuicons.sh"
+	chmod 755 "$rpiconsetup/rpmenuicons.sh"
 	
 }
 
@@ -73,48 +76,56 @@ function gui_rpmenu-icons() {
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu default icons installed\n\nRestart EmulationStation to apply."
                 ;;
             2)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_nes" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu nes icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             3)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_snes" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu snes icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             4)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_smd" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu smd-genesis icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             5)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_pce" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu pce-tg16 icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             6)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_gb" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu gameboy icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             7)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_fds" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu famicom icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             8)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_modern" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
+				chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu modern icons installed.\n\nRestart EmulationStation to apply."
                 ;;
         esac
