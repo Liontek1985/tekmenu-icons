@@ -76,56 +76,56 @@ function gui_rpmenu-icons() {
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu default icons installed\n\nRestart EmulationStation to apply."
                 ;;
             2)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_nes" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu nes icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             3)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_snes" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu snes icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             4)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_smd" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu smd-genesis icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             5)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_pce" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu pce-tg16 icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             6)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_gb" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu gameboy icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             7)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_fds" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu famicom icons installed.\n\nRestart EmulationStation to apply."
                 ;;
             8)
                 rm -rf "$datadir/retropiemenu/icons"
                 cp -r "$scriptdir/scriptmodules/supplementary/rpmenu-icons/icons_modern" "$datadir/retropiemenu/icons"
                 chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+		chmod 755 "$datadir/retropiemenu/icons"
                 printMsgs "dialog" "Settings menu modern icons installed.\n\nRestart EmulationStation to apply."
                 ;;
         esac
