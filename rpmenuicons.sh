@@ -17,7 +17,7 @@ rp_module_repo="git https://github.com/Liontek1985/rpmenu-icons.git master"
 rp_module_section="main"
 rp_module_flags="noinstclean"
 
-function depends_wiringOP() {
+function depends_rpmenu-icons() {
     local depends=(cmake)
      getDepends "${depends[@]}"
 }
