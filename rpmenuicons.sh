@@ -37,7 +37,7 @@ function install_rpmenu-icons() {
     cd "$md_inst"
 	
     cp -r "$rpdir/icons" "$md_inst/icons"
-    cp -r "$md_inst/icons" "$md_inst/icons_bkup"
+    cp -r "$rpdir/icons" "$md_inst/icons_bkup"
 	cp -r "rpmenuicons.sh" "$rpiconsetup/rpmenuicons.sh"
     chown -R $user:$user "$rpdir/icons"	
     chown -R $user:$user "$rpiconsetup/rpmenuicons.sh"
@@ -51,7 +51,10 @@ function install_rpmenu-icons() {
 function remove_rpmenu-icons() {
     local rpdir="$datadir/retropiemenu"
 	
+    rm -rf "$rpdir/icons"	
     cp -r "$md_inst/icons_bkup" "$rpdir/icons"
+    chown -R $user:$user "$rpdir/icons"
+	chmod 755 "$rpdir/icons"
 	rm -rf "$md_inst"
 	
 }
