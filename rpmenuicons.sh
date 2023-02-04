@@ -38,7 +38,7 @@ function install_rpmenu-icons() {
 	
     cp -r "$rpdir/icons" "$md_inst/icons"
     cp -r "$rpdir/icons" "$md_inst/icons_bkup"
-	cp -r "rpmenuicons.sh" "$rpiconsetup/rpmenuicons.sh"
+#	cp -r "rpmenuicons.sh" "$rpiconsetup/rpmenuicons.sh"
     chown -R $user:$user "$rpdir/icons"	
     chown -R $user:$user "$rpiconsetup/rpmenuicons.sh"
 	chmod 755 "$rpiconsetup/rpmenuicons.sh"
