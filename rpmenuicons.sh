@@ -31,7 +31,19 @@ function sources_rpmenu-icons() {
 }
 
 function install_rpmenu-icons() {
-    local rpdir="$datadir/retropiemenu"
+
+    if isPlatform "sun50i-h616"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "sun50i-h6"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "sun8i-h3"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "armv7-mali"; then
+		local rpdir="$datadir/retropiemenu-opi"
+	elif isPlatform "rpi"; then
+		local rpdir="$datadir/retropiemenu"
+    fi
+	
     local rpiconsetup="$scriptdir/scriptmodules/supplementary"
 	
     cd "$md_inst"
@@ -49,7 +61,17 @@ function install_rpmenu-icons() {
 
 
 function remove_rpmenu-icons() {
-    local rpdir="$datadir/retropiemenu"
+    if isPlatform "sun50i-h616"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "sun50i-h6"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "sun8i-h3"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "armv7-mali"; then
+		local rpdir="$datadir/retropiemenu-opi"
+	elif isPlatform "rpi"; then
+		local rpdir="$datadir/retropiemenu"
+    fi
 	
     rm -rf "$rpdir/icons"	
     cp -r "$md_inst/icons_bkup" "$rpdir/icons"
@@ -60,6 +82,19 @@ function remove_rpmenu-icons() {
 }
 
 function gui_rpmenu-icons() {
+
+    if isPlatform "sun50i-h616"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "sun50i-h6"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "sun8i-h3"; then
+		local rpdir="$datadir/retropiemenu-opi"
+    elif isPlatform "armv7-mali"; then
+		local rpdir="$datadir/retropiemenu-opi"
+	elif isPlatform "rpi"; then
+		local rpdir="$datadir/retropiemenu"
+    fi
+
     while true; do
         local options=(
             1 "choose default icon set"
@@ -77,67 +112,67 @@ function gui_rpmenu-icons() {
         [[ -z "$choice" ]] && break
         case "$choice" in
             1)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu default icons installed."
                 ;;
             2)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_nes" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_nes" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu nes icons installed."
                 ;;
             3)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_snes" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_snes" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu snes icons installed."
                 ;;
             4)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_smd" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_smd" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu smd-genesis icons installed."
                 ;;
             5)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_pce" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_pce" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu pce-tg16 icons installed."
                 ;;
             6)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_gb" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_gb" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu gameboy icons installed."
                 ;;
             7)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_fds" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_fds" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu famicom icons installed."
                 ;;
             8)
-                rm -rf "$datadir/retropiemenu/icons"
+                rm -rf "$rpdir/icons"
 				cd "$md_inst"
-                cp -r "icons_modern" "$datadir/retropiemenu/icons"
-                chown -R $user:$user "$datadir/retropiemenu/icons"
-				chmod 755 "$datadir/retropiemenu/icons"
+                cp -r "icons_modern" "$rpdir/icons"
+                chown -R $user:$user "$rpdir/icons"
+				chmod 755 "$rpdir/icons"
                 printMsgs "dialog" "Settings menu modern icons installed."
                 ;;
         esac
