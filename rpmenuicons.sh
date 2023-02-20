@@ -10,6 +10,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
+# rpmenu-iconscript v1.2 - 2023-02-20
 
 rp_module_id="rpmenu-icons"
 rp_module_desc="Retropiemenu Icon-Settings for ES"
@@ -57,6 +58,13 @@ function install_rpmenu-icons() {
 	chmod 755 "$rpdir/icons"
 	rm -r "rpmenuicons.sh"
 	
+    if [[ ! -f "$configdir/all/$md_id.cfg" ]]; then
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+        iniSet "RPMCHANGE" "default"		
+    fi
+    chown $user:$user "$configdir/all/$md_id.cfg"
+	chmod 755 "$configdir/all/$md_id.cfg"
+	
 }
 
 
@@ -78,10 +86,16 @@ function remove_rpmenu-icons() {
     chown -R $user:$user "$rpdir/icons"
 	chmod 755 "$rpdir/icons"
 	rm -rf "$md_inst"
-	
+
+    rm-r "$configdir/all/$md_id.cfg"	
 }
 
-function gui_rpmenu-icons() {
+function configrpm_rpmenu-icons() {
+	chown $user:$user "$configdir/all/$md_id.cfg"	
+    iniConfig "=" '"' "$configdir/all/$md_id.cfg"	
+}
+
+function changestatus_rpmenu-icons() {
 
     if isPlatform "sun50i-h616"; then
 		local rpdir="$datadir/retropiemenu-opi"
@@ -95,86 +109,130 @@ function gui_rpmenu-icons() {
 		local rpdir="$datadir/retropiemenu"
     fi
 
-    while true; do
-        local options=(
-            1 "choose default icon set"
-            2 "choose nes style icon set"
-            3 "choose snes style icon set"
-            4 "choose smd-genesis style icon set"
-            5 "choose pce-tg16 style icon set"
-            6 "choose gameboy style icon set"
-            7 "choose famicom style icon set"
-            8 "choose modern icon set"
+    options=(
+		C1 "Default Icon-Set [choose]"
+		C2 "NES Style Icon-Set [choose]"
+		C3 "SNES Style Icon-Set [choose]"
+		C4 "SMD-Genesis Style Icon-Set [choose]"
+		C5 "PCE-TG16 Style Icon-Set [choose]"
+		C6 "Gameboy Style Icon-Set [choose]"
+		C7 "Famicom Style Icon-Set [choose]"
+		C8 "Modern icon-set [choose]"
+		XX "[current setting: $rpmchange]"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        C1)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+ 			cp -r "icons" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "MODERN"
+			printMsgs "dialog" "Settings menu default icons installed."
+                ;;
+        C2)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+ 			cp -r "icons_nes" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "NES"
+ 			printMsgs "dialog" "Settings menu nes icons installed."
+                ;;
+        C3)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+			cp -r "icons_snes" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "SNES"
+			printMsgs "dialog" "Settings menu snes icons installed."
+                ;;
+        C4)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+			cp -r "icons_smd" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "SMD-GENESIS"
+			printMsgs "dialog" "Settings menu smd-genesis icons installed."
+                ;;
+        C5)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+			cp -r "icons_pce" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "PCE-TG16"
+			printMsgs "dialog" "Settings menu pce-tg16 icons installed."
+                ;;
+        C6)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+			cp -r "icons_gb" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "GAMEBOY"
+			printMsgs "dialog" "Settings menu gameboy icons installed."
+                ;;
+        C7)
+			rm -rf "$rpdir/icons"
+			cd "$md_inst"
+			cp -r "icons_fds" "$rpdir/icons"
+			chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "FAMICOM"
+			printMsgs "dialog" "Settings menu famicom icons installed."
+                ;;
+        C8)
+            rm -rf "$rpdir/icons"
+			cd "$md_inst"
+            cp -r "icons_modern" "$rpdir/icons"
+            chown -R $user:$user "$rpdir/icons"
+			chmod 755 "$rpdir/icons"
+			iniSet "RPMCHANGE" "MODERN"
+			printMsgs "dialog" "Settings menu modern icons installed."
+                ;;
+    esac
+}
+
+function gui_rpmenu-icons() {
+
+    local cmd=(dialog --default-item "$default" --backtitle "$__backtitle" --menu "Choose an option" 22 76 16)
+	
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+		
+        iniGet "RPMCHANGE"
+        local rpmchange=${ini_value}
+	
+    local options=(
+    )
+        options+=(	
+            I "RetroPie Menu Icon-Set (change me)"
+            X "[current setting: $rpmchange]"
+            TEK "### Script by Liontek1985 ###"
         )
-        local cmd=(dialog --default-item "$default" --backtitle "$__backtitle" --menu "Choose an option" 22 76 16)
+		
         local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
-        default="$choice"
-        [[ -z "$choice" ]] && break
+		
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+		
+        iniGet "RPMCHANGE"
+        local rpmchange=${ini_value}
+		
+    if [[ -n "$choice" ]]; then
         case "$choice" in
-            1)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu default icons installed."
+            I)
+				configrpm_rpmenu-icons
+				changestatus_rpmenu-icons
                 ;;
-            2)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_nes" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu nes icons installed."
-                ;;
-            3)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_snes" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu snes icons installed."
-                ;;
-            4)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_smd" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu smd-genesis icons installed."
-                ;;
-            5)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_pce" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu pce-tg16 icons installed."
-                ;;
-            6)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_gb" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu gameboy icons installed."
-                ;;
-            7)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_fds" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu famicom icons installed."
-                ;;
-            8)
-                rm -rf "$rpdir/icons"
-				cd "$md_inst"
-                cp -r "icons_modern" "$rpdir/icons"
-                chown -R $user:$user "$rpdir/icons"
-				chmod 755 "$rpdir/icons"
-                printMsgs "dialog" "Settings menu modern icons installed."
-                ;;
+            X)
+				configrpm_rpmenu-icons
+				changestatus_rpmenu-icons
+                ;;				
         esac
-    done
+    fi
 }
