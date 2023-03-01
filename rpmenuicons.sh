@@ -87,7 +87,7 @@ function remove_rpmenu-icons() {
 	chmod 755 "$rpdir/icons"
 	rm -rf "$md_inst"
 
-    rm-r "$configdir/all/$md_id.cfg"	
+    rm -r "$configdir/all/$md_id.cfg"	
 }
 
 function configrpm_rpmenu-icons() {
