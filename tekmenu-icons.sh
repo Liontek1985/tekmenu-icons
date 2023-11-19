@@ -10,7 +10,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# tekmenu-iconscript v1.5 - 2023-11-19
+# tekmenu-iconscript v1.51 - 2023-11-19
 
 rp_module_id="tekmenu-icons"
 rp_module_desc="Retropiemenu Icon-Settings for ES"
@@ -216,8 +216,9 @@ function changestatus_tekmenu-icons() {
 function changepath_tekmenu-icons() {
 
     options=(
-		P1 "Default Path [retropiemenu]"
-		P2 "Default Path [retropiemenu-nxt]"
+		P1 "Menu Path [retropiemenu]"
+		P2 "Menu Path [retropiemenu-nxt]"
+		P3 "Menu Path [custom folder]"
 		XX "[current path: $rpmpath]"
     )
     local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
@@ -231,6 +232,9 @@ function changepath_tekmenu-icons() {
         P2)
 			iniSet "RPMPATH" "retropiemenu-nxt"
  			printMsgs "dialog" "RPM-Path changed to retropiemenu-nxt"
+                ;;
+        P3)
+			editFile "/opt/retropie/configs/all/tekmenu-icons.cfg"
                 ;;
     esac
 }
