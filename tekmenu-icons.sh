@@ -10,7 +10,7 @@
 # See the LICENSE.md file at the top-level directory of this distribution and
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
-# tekmenu-iconscript v1.4 - 2023-11-14
+# tekmenu-iconscript v1.5 - 2023-11-19
 
 rp_module_id="tekmenu-icons"
 rp_module_desc="Retropiemenu Icon-Settings for ES"
@@ -36,17 +36,36 @@ function sources_tekmenu-icons() {
 
 function install_tekmenu-icons() {
 
-    if isPlatform "sun50i-h616"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "sun50i-h6"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "sun8i-h3"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "armv7-mali"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "rpi"; then
-		local rpdir="$datadir/retropiemenu"
+    if [[ ! -f "$configdir/all/$md_id.cfg" ]]; then
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+        iniSet "RPMCHANGE" "default"
+        iniSet "RPMPATH" "retropiemenu"
     fi
+
+    if isPlatform "sun50i-h616"; then
+        iniSet "RPMPATH" "retropiemenu-nxt"
+    elif isPlatform "sun50i-h6"; then
+        iniSet "RPMPATH" "retropiemenu-nxt"
+    elif isPlatform "sun8i-h3"; then
+        iniSet "RPMPATH" "retropiemenu-nxt"
+    elif isPlatform "armv7-mali"; then
+        iniSet "RPMPATH" "retropiemenu-nxt"
+    elif isPlatform "rpi"; then
+        iniSet "RPMPATH" "retropiemenu"
+    fi	
+	
+	
+	configrpm_tekmenu-icons
+	
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+		
+        iniGet "RPMCHANGE"
+        local rpmchange=${ini_value}
+        iniGet "RPMPATH"
+        local rpmpath=${ini_value}
+	
+		local space="/"
+		local rpdir="$datadir$space$rpmpath"
 	
     local rpiconsetup="$scriptdir/scriptmodules/supplementary"
 	
@@ -54,17 +73,16 @@ function install_tekmenu-icons() {
 	
     cp -r "$rpdir/icons" "$md_inst/icons"
     cp -r "$rpdir/icons" "$md_inst/icons_bkup"
-#	cp -r "rpmenuicons.sh" "$rpiconsetup/rpmenuicons.sh"
+#	cp -r "tekmenu-icons.sh" "$rpiconsetup/tekmenu-icons.sh"
     chown -R $user:$user "$rpdir/icons"	
-    chown -R $user:$user "$rpiconsetup/rpmenuicons.sh"
-	chmod 755 "$rpiconsetup/rpmenuicons.sh"
+    chown -R $user:$user "$rpiconsetup/tekmenu-icons.sh"
+	chmod 755 "$rpiconsetup/tekmenu-icons.sh"
 	chmod 755 "$rpdir/icons"
-	rm -r "rpmenuicons.sh"
+	rm -r "tekmenu-icons.sh"
+
 	
-    if [[ ! -f "$configdir/all/$md_id.cfg" ]]; then
-        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
-        iniSet "RPMCHANGE" "default"		
-    fi
+
+	
     chown $user:$user "$configdir/all/$md_id.cfg"
 	chmod 755 "$configdir/all/$md_id.cfg"
 	
@@ -72,17 +90,18 @@ function install_tekmenu-icons() {
 
 
 function remove_tekmenu-icons() {
-    if isPlatform "sun50i-h616"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "sun50i-h6"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "sun8i-h3"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "armv7-mali"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "rpi"; then
-		local rpdir="$datadir/retropiemenu"
-    fi
+
+	configrpm_tekmenu-icons
+	
+        iniConfig "=" '"' "$configdir/all/$md_id.cfg"
+		
+        iniGet "RPMCHANGE"
+        local rpmchange=${ini_value}
+        iniGet "RPMPATH"
+        local rpmpath=${ini_value}
+	
+		local space="/"
+		local rpdir="$datadir$space$rpmpath"
 	
     rm -rf "$rpdir/icons"	
     cp -r "$md_inst/icons_bkup" "$rpdir/icons"
@@ -100,17 +119,9 @@ function configrpm_tekmenu-icons() {
 
 function changestatus_tekmenu-icons() {
 
-    if isPlatform "sun50i-h616"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "sun50i-h6"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "sun8i-h3"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "armv7-mali"; then
-		local rpdir="$datadir/retropiemenu-nxt"
-    elif isPlatform "rpi"; then
-		local rpdir="$datadir/retropiemenu"
-    fi
+		local space="/"
+		local rpdir="$datadir$space$rpmpath"
+
 
     options=(
 		C1 "Default Icon-Set [choose]"
@@ -202,6 +213,28 @@ function changestatus_tekmenu-icons() {
     esac
 }
 
+function changepath_tekmenu-icons() {
+
+    options=(
+		P1 "Default Path [retropiemenu]"
+		P2 "Default Path [retropiemenu-nxt]"
+		XX "[current path: $rpmpath]"
+    )
+    local cmd=(dialog --backtitle "$__backtitle" --menu "Choose an option." 22 86 16)
+    local choice=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+
+    case "$choice" in
+        P1)
+			iniSet "RPMPATH" "retropiemenu"
+			printMsgs "dialog" "RPM-Path changed to retropiemenu"
+                ;;
+        P2)
+			iniSet "RPMPATH" "retropiemenu-nxt"
+ 			printMsgs "dialog" "RPM-Path changed to retropiemenu-nxt"
+                ;;
+    esac
+}
+
 function gui_tekmenu-icons() {
 
     local cmd=(dialog --default-item "$default" --backtitle "$__backtitle" --menu "Choose an option" 22 76 16)
@@ -210,12 +243,14 @@ function gui_tekmenu-icons() {
 		
         iniGet "RPMCHANGE"
         local rpmchange=${ini_value}
+        iniGet "RPMPATH"
+        local rpmpath=${ini_value}
 	
     local options=(
     )
         options+=(	
-            I "RetroPie Menu Icon-Set (change me)"
-            X "[current setting: $rpmchange]"
+            I "RetroPie Menu Icon-Set [$rpmchange]"
+            P "Retromenu Path [$rpmpath]"
             TEK "### Script by Liontek1985 ###"
         )
 		
@@ -225,17 +260,19 @@ function gui_tekmenu-icons() {
 		
         iniGet "RPMCHANGE"
         local rpmchange=${ini_value}
+        iniGet "RPMPATH"
+        local rpmpath=${ini_value}
 		
     if [[ -n "$choice" ]]; then
         case "$choice" in
             I)
 				configrpm_tekmenu-icons
 				changestatus_tekmenu-icons
-                ;;
-            X)
+                ;;	
+            P)
 				configrpm_tekmenu-icons
-				changestatus_tekmenu-icons
-                ;;				
+				changepath_tekmenu-icons
+                ;;			
         esac
     fi
 }
